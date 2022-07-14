@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Operations">
+      <HintPath>..\Operations\bin\Debug\Operations.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web.Extensions" />
@@ -46,7 +49,6 @@
   <ItemGroup>
     <Compile Include="Logger.cs" />
     <Compile Include="Actor.cs" />
-    <Compile Include="Operations.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WorkFlow.cs" />

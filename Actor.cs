@@ -5,12 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
+using Opertaion;
+
+
 
 namespace Clal_HW
 {
-    class Actor
+   public class Actor
     {
-        Operations operations = new Operations();
+        Operations  operations = new Operations();
         WorkFlow workFlow = new WorkFlow();
 
         public bool Init()
@@ -19,6 +22,7 @@ namespace Clal_HW
             {
                 string json = ReadJsonfile(@"C:\Users\חגית\source\repos\Clal_HW\workflow.txt");
                 workFlow = GetWorkFlowFromJson(json);
+                operations.init();
                 return true;
             }
             catch (Exception e)
