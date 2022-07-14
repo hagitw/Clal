@@ -6,16 +6,18 @@ using System.Threading.Tasks;
 
 namespace Clal_HW
 {
-    class Step 
+
+    public class Step
     {
-        public int  Id { get; set; }
+        public int Id { get; set; }
         public string OperationName { get; set; }
-
         public int NextIdIfOutputIsLessThan { get; set; }
-
         public int NextIdIfOutputIsGreaterThan { get; set; }
 
     }
-
+    public class WorkFlow
+    {
+        public List<Step> Steps { get; set; }
+    }
 }
 
