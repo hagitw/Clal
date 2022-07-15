@@ -11,7 +11,7 @@ namespace Clal_HW
         static void Main(string[] args)
         {
             Actor actor = new Actor();
-
+           
             if (!actor.Init())
             {
                 Console.WriteLine("Error");
@@ -26,7 +26,7 @@ namespace Clal_HW
             {
                 actor.Startprocc(input);
                 Console.WriteLine("Ended");
-                Console.ReadLine();
+                Console.ReadLine(); 
             }
             else
             {

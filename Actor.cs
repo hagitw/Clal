@@ -5,24 +5,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
-using Opertaion;
+using Operations;
 
 
-
+ 
 namespace Clal_HW
 {
    public class Actor
     {
-        Operations  operations = new Operations();
+        Operations.Functions  operations = new Operations.Functions();
         WorkFlow workFlow = new WorkFlow();
 
-        public bool Init()
+            public bool Init()
         {
             try
             {
                 string json = ReadJsonfile(@"C:\Users\חגית\source\repos\Clal_HW\workflow.txt");
                 workFlow = GetWorkFlowFromJson(json);
-                operations.init();
+                operations.Init();
                 return true;
             }
             catch (Exception e)
