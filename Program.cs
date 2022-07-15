@@ -24,7 +24,7 @@ namespace Clal_HW
 
             if (int.TryParse(strInput, out int input))
             {
-                actor.Startprocc(input);
+                actor.StartFlow(input);
                 Console.WriteLine("Ended");
                 Console.ReadLine(); 
             }

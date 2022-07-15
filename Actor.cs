@@ -8,15 +8,15 @@ using System.Web.Script.Serialization;
 using Operations;
 
 
- 
+
 namespace Clal_HW
 {
-   public class Actor
+    public class Actor
     {
-        Operations.Functions  operations = new Operations.Functions();
+        Operations.Functions operations = new Operations.Functions();
         WorkFlow workFlow = new WorkFlow();
 
-            public bool Init()
+        public bool Init()
         {
             try
             {
@@ -32,7 +32,7 @@ namespace Clal_HW
 
         }
 
-        public int Startprocc(int input)
+        public int StartFlow(int input)
         {
             bool activeFlow = true;
             Step nextStop = workFlow.Steps.FirstOrDefault();
@@ -47,7 +47,7 @@ namespace Clal_HW
                     {
                         nextStop = workFlow.Steps.Where(x => x.Id == nextStop.NextIdIfOutputIsLessThan).FirstOrDefault();
                     }
-                   
+
                     output = EcxcuteOperation(nextStop.OperationName, output);
                 }
                 else if (output >= 10)
@@ -101,31 +101,40 @@ namespace Clal_HW
         private int EcxcuteOperation(string ope, int input)
         {
             int output = 0;
-            switch (ope)
+            try
             {
-                case "operation 1":
-                    output = operations.PlusTHree(input);
-                    break;
+                switch (ope)
+                {
+                    case "operation 1":
+                        output = operations.PlusThree(input);
+                        break;
 
-                case "operation 2":
-                    output = operations.MultiplyByFive(input);
-                    break;
+                    case "operation 2":
+                        output = operations.MultiplyByFive(input);
+                        break;
 
-                case "operation 3":
-                    output = operations.DivideByTwo(input);
-                    break;
+                    case "operation 3":
+                        output = operations.DivideByTwo(input);
+                        break;
 
-                case "operation 4":
+                    case "operation 4":
 
-                    output = operations.Operation4(input);
-                    break;
+                        output = operations.InCaseofSevenInput(input);
+                        break;
 
 
-                default:
-                    break;
+                    default:
+                        break;
 
+                }
             }
-            Logger.Write(input+"->" + output);
+            catch (Exception e)
+            {
+
+                throw;
+            }
+
+            Logger.Write(input + "->" + output);
             return output;
         }
 
