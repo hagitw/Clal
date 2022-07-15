@@ -11,28 +11,28 @@ namespace Clal_HW
         static void Main(string[] args)
         {
             Actor actor = new Actor();
-           
+
             if (!actor.Init())
             {
                 Console.WriteLine("Error");
                 Console.ReadLine();
-                
             }
-         
+
             Console.WriteLine("Enter number to start");
             string strInput = Console.ReadLine();
+            int input;
 
-            if (int.TryParse(strInput, out int input))
-            {
-                actor.StartFlow(input);
-                Console.WriteLine("Ended");
-                Console.ReadLine(); 
-            }
-            else
+            while (int.TryParse(strInput, out input) == false)
             {
                 Console.WriteLine("Enter number to start");
-                Console.ReadLine();
+                strInput = Console.ReadLine();
             }
+
+            actor.StartFlow(input);
+
+            Console.WriteLine("End");
+            Console.ReadLine();
+
         }
     }
 }

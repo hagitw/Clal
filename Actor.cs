@@ -22,49 +22,76 @@ namespace Clal_HW
             {
                 string json = ReadJsonfile(@"C:\Users\חגית\source\repos\Clal_HW\workflow.txt");
                 workFlow = GetWorkFlowFromJson(json);
+                if (workFlow == null)
+                {
+                    Logger.Write("workFlow id null");
+                    return false;
+                }
+
                 operations.Init();
+
                 return true;
             }
             catch (Exception e)
             {
+                Logger.Write(e.Message);
                 return false;
             }
 
         }
 
-        public int StartFlow(int input)
+        public void StartFlow(int input)
         {
             bool activeFlow = true;
-            Step nextStop = workFlow.Steps.FirstOrDefault();
-
-            int output = EcxcuteOperation(nextStop.OperationName, input);
-
-            while (activeFlow)
+            try
             {
-                if (output < 10)
+                Step nextStop = workFlow.Steps.FirstOrDefault();
+                if (nextStop == null)
                 {
-                    if (nextStop.Id != nextStop.NextIdIfOutputIsLessThan)
-                    {
-                        nextStop = workFlow.Steps.Where(x => x.Id == nextStop.NextIdIfOutputIsLessThan).FirstOrDefault();
-                    }
+                    Logger.WriteError("nextStop is null");
+                    return;
+                }
 
-                    output = EcxcuteOperation(nextStop.OperationName, output);
-                }
-                else if (output >= 10)
+                int output = EcxcuteOperation(nextStop.OperationName, input);
+
+                while (activeFlow)
                 {
-                    if (nextStop.Id != nextStop.NextIdIfOutputIsGreaterThan)
+                    if (output < 10)
                     {
-                        nextStop = workFlow.Steps.Where(x => x.Id == nextStop.NextIdIfOutputIsGreaterThan).FirstOrDefault();
+                        if (nextStop.Id != nextStop.NextIdIfOutputIsLessThan)
+                        {
+                            nextStop = workFlow.Steps.Where(x => x.Id == nextStop.NextIdIfOutputIsLessThan).FirstOrDefault();
+                        }
+
+                        output = EcxcuteOperation(nextStop.OperationName, output);
                     }
-                    output = EcxcuteOperation(nextStop.OperationName, output);
+                    else if (output >= 10)
+                    {
+                        if (nextStop.Id != nextStop.NextIdIfOutputIsGreaterThan)
+                        {
+                            nextStop = workFlow.Steps.Where(x => x.Id == nextStop.NextIdIfOutputIsGreaterThan).FirstOrDefault();
+                        }
+                        output = EcxcuteOperation(nextStop.OperationName, output);
+                    }
+                    else if (output == 10)
+                    {
+                        activeFlow = false;
+                        Logger.Write("Flow end");
+                    }
                 }
-                else if (output == 10)
+            }
+            catch (Exception e)
+            {
+                if (e.Message.StartsWith("end workflow"))
                 {
-                    activeFlow = false;
+                    Logger.Write("Flow end");
+                }
+                else
+                {
+                    Logger.WriteError("StartFlow - ex:" + e.Message);
                 }
             }
 
-            return 0;
         }
         private string ReadJsonfile(string path)
         {
@@ -78,7 +105,7 @@ namespace Clal_HW
             }
             catch (Exception e)
             {
-                Logger.WriteInfo("Err", "ReadJsonfile", e.Message);
+                Logger.WriteError("ReadJsonfile- ex: " + e.Message);
             }
             return json;
         }
@@ -92,7 +119,7 @@ namespace Clal_HW
             }
             catch (Exception e)
             {
-                Logger.WriteInfo("Err", "GetStepsFromJson", e.Message);
+                Logger.WriteError("GetStepsFromJson- ex:" + e.Message);
             }
 
             return steps;
@@ -101,38 +128,32 @@ namespace Clal_HW
         private int EcxcuteOperation(string ope, int input)
         {
             int output = 0;
-            try
+
+            switch (ope)
             {
-                switch (ope)
-                {
-                    case "operation 1":
-                        output = operations.PlusThree(input);
-                        break;
+                case "operation 1":
+                    output = operations.PlusThree(input);
+                    break;
 
-                    case "operation 2":
-                        output = operations.MultiplyByFive(input);
-                        break;
+                case "operation 2":
+                    output = operations.MultiplyByFive(input);
+                    break;
 
-                    case "operation 3":
-                        output = operations.DivideByTwo(input);
-                        break;
+                case "operation 3":
+                    output = operations.DivideByTwo(input);
+                    break;
 
-                    case "operation 4":
+                case "operation 4":
 
-                        output = operations.InCaseofSevenInput(input);
-                        break;
+                    output = operations.InCaseofSevenInput(input);
+                    break;
 
 
-                    default:
-                        break;
+                default:
+                    break;
 
-                }
             }
-            catch (Exception e)
-            {
 
-                throw;
-            }
 
             Logger.Write(input + "->" + output);
             return output;

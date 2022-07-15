@@ -11,9 +11,9 @@ namespace Clal_HW
     {
       
 
-        public static void WriteInfo(string type, string mathod, string msg)
+        public static void WriteError(string msg)
         {
-            Console.WriteLine(type + ": mathod:" + mathod + "; ex:" + msg);
+            Console.WriteLine("Error:" + msg);
         }
         public static void Write(string msg)
         {
